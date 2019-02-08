@@ -1,29 +1,43 @@
 package pl.edu.pw.ii.pte.junit.inheritance;
 
-/**
- * This program demonstrates inheritance.
- * @version 1.21 2004-02-21
- * @author Cay Horstmann
- * http://www.horstmann.com/corejava.html
- */
-public class ManagerTest
-{
-   public static void main(String[] args)
-   {
-      // construct a Manager object
-      Manager boss = new Manager("Carl Cracker", 80000, 1987, 12, 15);
-      boss.setBonus(5000);
+import org.junit.Before;
+import org.junit.Test;
 
-      Employee[] staff = new Employee[3];
+import static org.junit.Assert.assertEquals;
 
-      // fill the staff array with Manager and Employee objects
+public class ManagerTest {
+    Manager manager;
+    Employee employee;
 
-      staff[0] = boss;
-      staff[1] = new Employee("Harry Hacker", 50000, 1989, 10, 1);
-      staff[2] = new Employee("Tommy Tester", 40000, 1990, 3, 15);
+    @Before
+    public void setUp() throws Exception {
+        manager = new Manager("Alan", 11111, 1999, 12, 11);
+        employee = new Employee("Brian", 1000, 1998, 10, 9);
+    }
 
-      // print out information about all Employee objects
-      for (Employee e : staff)
-         System.out.println("name=" + e.getName() + ",salary=" + e.getSalary());
-   }
+    @Test
+    public void testGetSalary(){
+        manager.setBonus(111.00);
+        assertEquals(11222.0, manager.getSalary(), 0);
+        assertEquals(1000, employee.getSalary(), 0);
+    }
+    @Test
+    public void testGetName(){
+        assertEquals("Alan", manager.getName());
+        assertEquals("Brian", employee.getName());
+    }
+    @Test
+    public void testGetHireDay(){
+        String date = "Sat Dec 11 00:00:00 CET 1999";
+        String date1 = "Fri Oct 09 00:00:00 CEST 1998";
+        assertEquals(date, manager.getHireDay().toString());
+        assertEquals(date1, employee.getHireDay().toString());
+    }
+    @Test
+    public void testRaiseSalary(){
+        manager.raiseSalary(12.00);
+        employee.raiseSalary(5);
+        assertEquals(12444.32, manager.getSalary(), 0);
+        assertEquals(1050, employee.getSalary(), 0);
+    }
 }
